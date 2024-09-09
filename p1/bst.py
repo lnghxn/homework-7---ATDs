@@ -19,7 +19,6 @@ class BST:
         self.root = root
 
     def insert(self, number):
-        # This is a nested function - it's only needed inside this function.
         def insert_node(tree):
             if number < tree.val and tree.left is not None:
                 insert_node(tree.left)
@@ -46,9 +45,32 @@ class BST:
                 tree.insert(node)
         return tree
 
+    def traverse_pre(self):
+        def pre_order(node, result):
+            if node is None:
+                return
+            result.append(node.val)
+            pre_order(node.left, result)
+            pre_order(node.right, result)
+
+        result = []
+        pre_order(self.root, result)
+        return result
+
+    def traverse_post(self):
+        def post_order(node, result):
+            if node is None:
+                return
+            post_order(node.left, result)
+            post_order(node.right, result)
+            result.append(node.val)
+
+        result = []
+        post_order(self.root, result)
+        return result
 
 if __name__ == '__main__':
     nodes = [25, 20, 30, 29, 35, 15, 22]
     tree = BST.create(nodes)
-    # print(tree.traverse_pre()) # -> This should return the list [25, 20, 15, 22, 30, 29, 35]
-    # print(tree.traverse_post()) # -> This should return the list [15, 22, 20, 29, 35, 30, 25]
+    print(tree.traverse_pre()) # -> This should return the list [25, 20, 15, 22, 30, 29, 35]
+    print(tree.traverse_post()) # -> This should return the list [15, 22, 20, 29, 35, 30, 25]
